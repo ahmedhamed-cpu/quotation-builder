@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Valeo — Quotation Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Spectral:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    --navy:#213748; --navy-800:#1a2c3a; --navy-700:#2a4457;
+    --gold:#c29b4e; --gold-soft:#e6d2a0;
+    --ink:#1c2a35; --muted:#5e6f7e; --line:#dde4ec;
+    --surface:#ffffff; --surface-2:#f4f7fa; --app-bg:#eceff4;
+    --field:#ffffff; --field-line:#cdd7e1; --pos:#2f7d5b;
+    --shadow:0 1px 2px rgba(20,35,50,.06), 0 8px 24px rgba(20,35,50,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#e7eef4; --muted:#9bb0c1; --line:#31475a;
+      --surface:#17252f; --surface-2:#1d2f3c; --app-bg:#101d26;
+      --field:#1f3240; --field-line:#3a5266;
+      --pos:#57b88c; --gold:#d6b163; --gold-soft:#e6d2a0;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#e7eef4; --muted:#9bb0c1; --line:#31475a;
+    --surface:#17252f; --surface-2:#1d2f3c; --app-bg:#101d26;
+    --field:#1f3240; --field-line:#3a5266;
+    --pos:#57b88c; --gold:#d6b163; --gold-soft:#e6d2a0;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--app-bg);color:var(--ink);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3{margin:0;font-weight:600}
+  .num{font-variant-numeric:tabular-nums}
+
+  header{background:var(--navy);color:#eef3f7;
+    padding:calc(env(safe-area-inset-top,0px) + 16px) 22px 16px;
+    border-bottom:1px solid rgba(255,255,255,.08);}
+  .head-in{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:40px;height:40px;flex:none}
+  .brand .word{font-family:Spectral,Georgia,serif;font-size:22px;letter-spacing:.14em;font-weight:600;color:var(--gold-soft)}
+  .brand .word span{color:#fff}
+  .head-title{margin-left:auto;text-align:right}
+  .head-title .k{font-family:Spectral,Georgia,serif;font-size:18px;color:#fff}
+  .head-title .s{font-size:12.5px;color:#a9bccb;margin-top:1px}
+
+  .wrap{max-width:1240px;margin:0 auto;padding:22px;display:grid;grid-template-columns:1fr 372px;gap:22px;align-items:start}
+  @media (max-width:980px){.wrap{grid-template-columns:1fr}}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+  .card .hd{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .card .hd h2{font-family:Spectral,Georgia,serif;font-size:17px}
+  .card .hd .hint{font-size:12.5px;color:var(--muted)}
+  .card .bd{padding:16px 18px}
+  .stack{display:flex;flex-direction:column;gap:22px}
+
+  /* project bar */
+  .proj-row{display:flex;gap:10px;align-items:center}
+  .proj-row select{flex:1;min-width:0}
+  .proj-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media (max-width:520px){.grid{grid-template-columns:1fr}}
+  .field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-weight:500}
+  .field .suffix{position:relative}
+  .field .suffix small{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12.5px;pointer-events:none}
+  input[type=text],input[type=number],select{width:100%;padding:9px 11px;border:1px solid var(--field-line);border-radius:9px;
+    background:var(--field);color:var(--ink);font:inherit;font-variant-numeric:tabular-nums;}
+  input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+  input[type=number]{appearance:textfield}
+
+  .group-title{font-size:12px;letter-spacing:.06em;color:var(--gold);font-weight:600;text-transform:uppercase;margin:18px 0 8px;padding-top:4px}
+  .group-title:first-child{margin-top:2px}
+  table{width:100%;border-collapse:collapse}
+  thead th{font-size:11.5px;color:var(--muted);font-weight:600;text-align:right;padding:4px 8px;white-space:nowrap}
+  thead th.l{text-align:left}
+  tbody td{padding:7px 8px;border-top:1px solid var(--line);vertical-align:middle}
+  tbody tr.off{opacity:.42}
+  .svc-name{font-weight:500;font-size:14px}
+  .svc-note{font-size:11.5px;color:var(--muted);margin-top:1px}
+  td.num-cell{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+  td .mini{width:92px;text-align:right;padding:6px 9px}
+  td .visits{width:62px;text-align:right;padding:6px 9px}
+  .annual-cost{font-weight:600;min-width:84px;display:inline-block}
+  .empty-state{padding:26px 8px;text-align:center;color:var(--muted);font-size:14px}
+  .add-row td{border-top:1px dashed var(--line);padding-top:4px;padding-bottom:10px}
+  .add-link{background:none;border:none;color:var(--muted);font:inherit;font-size:12.5px;font-weight:500;cursor:pointer;padding:3px 2px;border-radius:6px}
+  .add-link:hover{color:var(--gold)}
+  .chk{position:relative;display:inline-flex;width:20px;height:20px}
+  .chk input{position:absolute;opacity:0;width:20px;height:20px;margin:0;cursor:pointer}
+  .chk .box{width:20px;height:20px;border:1.5px solid var(--field-line);border-radius:6px;background:var(--field);transition:.12s}
+  .chk input:checked + .box{background:var(--gold);border-color:var(--gold)}
+  .chk .box::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg) scale(0);transition:.12s}
+  .chk input:checked ~ .box::after{transform:rotate(45deg) scale(1)}
+  .chk input:focus-visible + .box{outline:2px solid var(--gold);outline-offset:2px}
+  .rm{border:none;background:none;color:var(--muted);cursor:pointer;font-size:17px;line-height:1;padding:4px 6px;border-radius:6px}
+  .rm:hover{color:#c0392b;background:rgba(192,57,43,.1)}
+
+  .row-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .btn{font:inherit;font-weight:500;font-size:13.5px;padding:8px 14px;border-radius:9px;border:1px solid var(--field-line);background:var(--surface-2);color:var(--ink);cursor:pointer}
+  .btn:hover{border-color:var(--gold)}
+  .btn.sm{padding:6px 11px;font-size:12.5px}
+  .btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .btn.primary:hover{background:var(--navy-700)}
+  .btn.danger{color:#c0392b;border-color:#e3b4ae}
+  .btn.danger:hover{background:rgba(192,57,43,.08)}
+  .btn.ghost{background:none}
+
+  .summary{position:sticky;top:16px}
+  @media (max-width:980px){.summary{position:static}}
+  .sum-head{padding:16px 18px 6px}
+  .sum-head .cl{font-family:Spectral,Georgia,serif;font-size:18px}
+  .sum-head .mem{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line);margin-top:10px}
+  .plan{padding:16px 18px;border-right:1px solid var(--line)}
+  .plan:last-child{border-right:none;background:var(--surface-2)}
+  .plan .lab{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .plan .fig{font-family:Spectral,Georgia,serif;font-size:27px;font-weight:600;margin-top:7px;line-height:1.05;font-variant-numeric:tabular-nums}
+  .plan .fig small{font-size:14px;color:var(--muted);font-weight:500;font-family:Inter,sans-serif}
+  .plan .sub{font-size:12px;color:var(--muted);margin-top:5px;min-height:16px}
+  .plan .tag{display:inline-block;font-size:11px;color:var(--pos);font-weight:600;margin-top:4px}
+  .totes{padding:14px 18px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:9px}
+  .line{display:flex;justify-content:space-between;gap:12px;font-size:13.5px}
+  .line .lv{color:var(--muted)}
+  .line .rv{font-variant-numeric:tabular-nums;font-weight:500}
+  .line.big{padding-top:9px;border-top:1px dashed var(--line)}
+  .line.big .lv{color:var(--ink);font-weight:600}
+  .line.big .rv{font-family:Spectral,serif;font-size:19px;font-weight:600;color:var(--navy)}
+  .internal{margin:0 18px 16px;padding:12px 14px;background:var(--surface-2);border:1px dashed var(--line);border-radius:10px}
+  .internal .it{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
+  .sum-actions{padding:0 18px 18px;display:flex;gap:10px}
+  .sum-actions .btn{flex:1;text-align:center}
+  .foot{max-width:1240px;margin:0 auto;padding:4px 22px 30px;color:var(--muted);font-size:12px}
+
+  /* modal */
+  .overlay{position:fixed;inset:0;background:rgba(16,28,38,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+  .overlay[hidden]{display:none}
+  .modal{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.35);width:100%;max-width:420px;padding:20px}
+  .modal h3{font-family:Spectral,serif;font-size:19px;margin-bottom:4px}
+  .modal p{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+  .modal .field{margin-bottom:14px}
+  .modal .acts{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
+
+  #quote-doc{display:none}
+  @media print{
+    @page{margin:16mm}
+    header,.wrap,.foot,.overlay{display:none !important}
+    body{background:#fff;color:#000}
+    #quote-doc{display:block;max-width:720px;margin:0 auto;font-size:12px;color:#111}
+    #quote-doc .q-head{display:flex;align-items:center;gap:12px;border-bottom:2px solid #213748;padding-bottom:10px}
+    #quote-doc .q-word{font-family:Spectral,serif;font-size:20px;letter-spacing:.14em;color:#213748;font-weight:600}
+    #quote-doc h2{font-family:Spectral,serif;font-size:16px;margin:18px 0 6px;color:#213748}
+    #quote-doc .meta{margin-top:10px;color:#333}
+    #quote-doc table{width:100%;margin-top:6px}
+    #quote-doc th,#quote-doc td{border-top:1px solid #ccc;padding:5px 6px;text-align:right;font-variant-numeric:tabular-nums}
+    #quote-doc th.l,#quote-doc td.l{text-align:left}
+    #quote-doc .price-box{display:flex;gap:14px;margin-top:8px}
+    #quote-doc .pb{flex:1;border:1px solid #213748;border-radius:8px;padding:10px 12px}
+    #quote-doc .pb .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#555}
+    #quote-doc .pb .v{font-family:Spectral,serif;font-size:20px;color:#213748;font-weight:600}
+    #quote-doc .note{margin-top:14px;color:#555;font-size:10.5px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="head-in">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M18 24 L42 78 Q50 94 58 78 L82 24 Q74 30 66 46 L54 72 Q50 80 46 72 L34 46 Q26 30 18 24 Z"
+              fill="none" stroke="#e6d2a0" stroke-width="7" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <div class="word">VALE<span>O</span></div>
+    </div>
+    <div class="head-title">
+      <div class="k">Quotation Builder</div>
+      <div class="s">Multi-project · per member & subscription</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="stack">
+    <section class="card">
+      <div class="hd"><h2>Quotation</h2><span class="hint">Switch between projects or start a new one</span></div>
+      <div class="bd">
+        <div class="proj-row">
+          <select id="quote-switch" aria-label="Select quotation"></select>
+          <button class="btn primary" id="new-quote">New</button>
+        </div>
+        <div class="proj-actions">
+          <button class="btn sm" id="rename-quote">Rename</button>
+          <button class="btn sm" id="dup-quote">Duplicate</button>
+          <button class="btn sm danger" id="del-quote">Delete</button>
+          <span style="flex:1"></span>
+          <button class="btn sm ghost" id="backup">Backup all</button>
+          <button class="btn sm ghost" id="restore">Restore</button>
+          <input type="file" id="restore-file" accept="application/json" hidden>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h2>Settings</h2><span class="hint">Client, members and pricing rules for this quotation</span></div>
+      <div class="bd">
+        <div class="grid">
+          <div class="field" style="grid-column:1/-1">
+            <label for="client">Client</label>
+            <input type="text" id="client" data-k="client">
+          </div>
+          <div class="field">
+            <label for="members">Number of members</label>
+            <input type="number" id="members" data-k="members" min="1" step="1">
+          </div>
+          <div class="field">
+            <label for="markup">Markup on cost</label>
+            <div class="suffix"><input type="number" id="markup" data-k="markup" min="0" step="1"><small>%</small></div>
+          </div>
+          <div class="field">
+            <label for="uplift">Monthly-plan uplift vs annual</label>
+            <div class="suffix"><input type="number" id="uplift" data-k="uplift" min="0" step="1"><small>%</small></div>
+          </div>
+          <div class="field">
+            <label for="rounding">Round prices to nearest</label>
+            <select id="rounding" data-k="rounding">
+              <option value="1">SAR 1</option>
+              <option value="5">SAR 5</option>
+              <option value="10">SAR 10</option>
+              <option value="50">SAR 50</option>
+              <option value="100">SAR 100</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="hd"><h2>Services per member</h2><span class="hint">Enter your B2B cost & visits/year; untick to exclude</span></div>
+      <div class="bd">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:28px"></th>
+              <th class="l">Service</th>
+              <th>Cost / unit</th>
+              <th>Visits / yr</th>
+              <th>Annual cost</th>
+              <th style="width:24px"></th>
+            </tr>
+          </thead>
+          <tbody id="svc-body"></tbody>
+        </table>
+        <div class="row-actions">
+          <button class="btn" id="add-section">+ Add section</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <aside class="summary">
+    <section class="card">
+      <div class="sum-head">
+        <div class="cl" id="s-client">Client</div>
+        <div class="mem" id="s-members">per member</div>
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <div class="lab">Monthly plan</div>
+          <div class="fig num" id="s-monthly">SAR 0<small>/mo</small></div>
+          <div class="sub num" id="s-monthly-year">SAR 0 / year</div>
+        </div>
+        <div class="plan">
+          <div class="lab">Annual plan</div>
+          <div class="fig num" id="s-annual">SAR 0<small>/yr</small></div>
+          <div class="sub"><span class="tag" id="s-savings">Best value</span></div>
+        </div>
+      </div>
+      <div class="totes">
+        <div class="line"><span class="lv">Members</span><span class="rv num" id="s-memcount">0</span></div>
+        <div class="line"><span class="lv">Total monthly plan (all members)</span><span class="rv num" id="s-tot-monthly">SAR 0/mo</span></div>
+        <div class="line big"><span class="lv">Annual contract value</span><span class="rv num" id="s-acv">SAR 0</span></div>
+      </div>
+      <div class="internal">
+        <div class="it">Internal · cost basis (not shown to client)</div>
+        <div class="totes" style="padding:0;gap:7px">
+          <div class="line"><span class="lv">Annual cost / member</span><span class="rv num" id="s-cogs">SAR 0</span></div>
+          <div class="line"><span class="lv">Margin / member (annual)</span><span class="rv num" id="s-margin">SAR 0</span></div>
+          <div class="line"><span class="lv">Gross margin</span><span class="rv num" id="s-marginpct">0%</span></div>
+        </div>
+      </div>
+      <div class="sum-actions">
+        <button class="btn primary" id="print">Print / save quote</button>
+        <button class="btn" id="export">Export quote</button>
+      </div>
+    </section>
+  </aside>
+</div>
+
+<div class="foot">Prices exclude VAT. Quotations are saved in this browser. Use Backup all before clearing browser data or to move quotations between machines.</div>
+
+<div class="overlay" id="overlay" hidden><div class="modal" id="modal"></div></div>
+<div id="quote-doc"></div>
+
+<script>
+(function(){
+  "use strict";
+  var STORE_KEY = "valeo_quotes_v1";
+
+  function execServices(){
+    var rows = [
+      ["Doctor Assessment & Heart","Doctor consultation and physical exam","",1],
+      ["Doctor Assessment & Heart","Blood pressure, BMI and vital signs","",1],
+      ["Doctor Assessment & Heart","InBody body composition","",1],
+      ["Doctor Assessment & Heart","Resting ECG","",1],
+      ["Doctor Assessment & Heart","Lipid profile","",1],
+      ["Doctor Assessment & Heart","hs-CRP (inflammation)","",1],
+      ["Doctor Assessment & Heart","Metabolic and cardiovascular risk markers","",1],
+      ["Blood, Organs & Hormones","Complete blood count (CBC)","",1],
+      ["Blood, Organs & Hormones","Fasting blood sugar and HbA1c","",1],
+      ["Blood, Organs & Hormones","Full liver and kidney panels","",1],
+      ["Blood, Organs & Hormones","Electrolytes","",1],
+      ["Blood, Organs & Hormones","Thyroid (TSH, Free T4)","",1],
+      ["Blood, Organs & Hormones","Vitamin D, B12, ferritin and iron","",1],
+      ["Blood, Organs & Hormones","Hormonal health (men's and women's panels)","",1],
+      ["Blood, Organs & Hormones","PSA (men 40+)","",1],
+      ["Blood, Organs & Hormones","Urine analysis","",1],
+      ["Longevity & Follow-up","Valeo Longevity Blood Panel","",1],
+      ["Longevity & Follow-up","Doctor results consultation","",1],
+      ["Longevity & Follow-up","Unlimited 15-min physician follow-ups","set a notional count/yr for costing",4],
+      ["Longevity & Follow-up","Dietitian session","",1],
+      ["Longevity & Follow-up","Longevity Score & progress tracking","",1],
+      ["Longevity & Follow-up","Personal health report","",1],
+      ["Immune Booster IV Therapy","Immune Booster IV therapy","500 ml (vit C, B, magnesium, zinc)",1]
+    ];
+    var addons = [
+      ["Optional Add-ons","Advanced longevity biomarkers","with physician interpretation",1],
+      ["Optional Add-ons","Abdominal ultrasound","mobile diagnostics",1],
+      ["Optional Add-ons","Chest X-ray","mobile diagnostics",1],
+      ["Optional Add-ons","Mobile diagnostic scans","",1]
+    ];
+    var out = [];
+    rows.forEach(function(r){ out.push({g:r[0],n:r[1],note:r[2],on:true,cost:0,visits:r[3]}); });
+    addons.forEach(function(r){ out.push({g:r[0],n:r[1],note:r[2],on:false,cost:0,visits:r[3]}); });
+    return out;
+  }
+
+  var TEMPLATES = {
+    blank:     {label:"Blank quotation", build:function(){return [];}},
+    executive: {label:"Executive Health check-up (Chedid)", build:execServices}
+  };
+
+  function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+  function newQuote(name, templateKey){
+    var t = TEMPLATES[templateKey] || TEMPLATES.blank;
+    return {
+      id:uid(), name:name||"Untitled quotation", client:name||"",
+      members:50, markup:40, uplift:15, rounding:10,
+      services:t.build(), createdAt:Date.now(), updatedAt:Date.now()
+    };
+  }
+
+  function seedStore(){
+    var q = newQuote("Chedid VIP Clients","executive");
+    q.client = "Chedid VIP Clients";
+    return {version:1, activeId:q.id, quotes:[q]};
+  }
+
+  var store = load();
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if(raw){ var p = JSON.parse(raw); if(p && p.quotes && p.quotes.length) return p; }
+    }catch(e){}
+    return seedStore();
+  }
+  function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(store)); }catch(e){} }
+  function active(){
+    var q = store.quotes.filter(function(x){return x.id===store.activeId;})[0];
+    if(!q){ q = store.quotes[0]; store.activeId = q.id; }
+    return q;
+  }
+
+  var nf = new Intl.NumberFormat("en-US",{maximumFractionDigits:0});
+  function sar(v){ return "SAR " + nf.format(Math.round(v||0)); }
+  function roundTo(v, step){ step = Number(step)||1; return Math.round(v/step)*step; }
+  function esc(t){ return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+
+  function compute(){
+    var q = active(), cogs = 0;
+    q.services.forEach(function(s){ if(s.on){ cogs += (Number(s.cost)||0) * (Number(s.visits)||0); } });
+    var markup=Number(q.markup)||0, uplift=Number(q.uplift)||0, step=Number(q.rounding)||1;
+    var members=Math.max(0,Number(q.members)||0);
+    var sellAnnual = cogs * (1 + markup/100);
+    var annualFee = roundTo(sellAnnual, step);
+    var monthlyFee = roundTo(sellAnnual/12 * (1 + uplift/100), step);
+    var monthlyAnnualized = monthlyFee * 12;
+    var savings = monthlyAnnualized - annualFee;
+    var marginAnnual = annualFee - cogs;
+    var marginPct = annualFee>0 ? (marginAnnual/annualFee*100) : 0;
+    return {cogs:cogs, annualFee:annualFee, monthlyFee:monthlyFee, monthlyAnnualized:monthlyAnnualized,
+      savings:savings, marginAnnual:marginAnnual, marginPct:marginPct, members:members,
+      totMonthly:monthlyFee*members, totMonthlyYear:monthlyAnnualized*members, acv:annualFee*members};
+  }
+
+  // ---- switcher ----
+  var sw = document.getElementById("quote-switch");
+  function buildSwitcher(){
+    sw.innerHTML = "";
+    store.quotes.forEach(function(q){
+      var o = document.createElement("option");
+      o.value = q.id; o.textContent = q.name || "Untitled";
+      if(q.id===store.activeId) o.selected = true;
+      sw.appendChild(o);
+    });
+  }
+  sw.addEventListener("change", function(){ store.activeId = sw.value; persist(); syncSettings(); buildTable(); refresh(); });
+
+  // ---- table ----
+  var body = document.getElementById("svc-body");
+  function rowHtml(s){
+    return '<td><label class="chk"><input type="checkbox" data-act="on" '+(s.on?"checked":"")+'><span class="box"></span></label></td>'+
+      '<td><div class="svc-name" data-act="name" contenteditable="false">'+esc(s.n)+'</div>'+(s.note?'<div class="svc-note">'+esc(s.note)+'</div>':'')+'</td>'+
+      '<td class="num-cell"><input class="mini num" type="number" min="0" step="1" data-act="cost" value="'+(s.cost||0)+'"></td>'+
+      '<td class="num-cell"><input class="visits num" type="number" min="0" step="1" data-act="visits" value="'+(s.visits||0)+'"></td>'+
+      '<td class="num-cell"><span class="annual-cost num" data-role="rowcost">'+sar((s.on?(s.cost*s.visits):0))+'</span></td>'+
+      '<td><button class="rm" data-act="rm" title="Remove service">&times;</button></td>';
+  }
+  function buildTable(){
+    var q = active();
+    body.innerHTML = "";
+    if(!q.services.length){
+      var er = document.createElement("tr");
+      er.innerHTML = '<td colspan="6"><div class="empty-state">No services yet. Use "Add section" below to start.</div></td>';
+      body.appendChild(er); return;
+    }
+    // ordered list of section names by first appearance
+    var order=[], seen={};
+    q.services.forEach(function(s){ var g=s.g||"Services"; if(!seen[g]){ seen[g]=true; order.push(g); } });
+    order.forEach(function(g){
+      var gr = document.createElement("tr");
+      gr.innerHTML = '<td colspan="6"><div class="group-title">'+esc(g)+'</div></td>';
+      body.appendChild(gr);
+      q.services.forEach(function(s, i){
+        if((s.g||"Services")!==g) return;
+        var tr = document.createElement("tr");
+        tr.className = s.on ? "" : "off";
+        tr.dataset.i = i;
+        tr.innerHTML = rowHtml(s);
+        body.appendChild(tr);
+      });
+      var ar = document.createElement("tr");
+      ar.className = "add-row";
+      ar.innerHTML = '<td></td><td colspan="5"><button class="add-link" data-act="add-in" data-group="'+esc(g)+'">+ Add service to '+esc(g)+'</button></td>';
+      body.appendChild(ar);
+    });
+  }
+  function focusNewName(idx){
+    var tr = body.querySelector('tr[data-i="'+idx+'"]');
+    if(tr){ var nm=tr.querySelector('[data-act=name]'); nm.setAttribute("contenteditable","true"); nm.focus();
+      try{ document.getSelection().selectAllChildren(nm); }catch(e){} }
+  }
+
+  body.addEventListener("input", function(e){
+    var tr = e.target.closest("tr"); if(!tr||tr.dataset.i===undefined) return;
+    var i=+tr.dataset.i, act=e.target.dataset.act, s=active().services[i];
+    if(act==="cost") s.cost = Math.max(0, Number(e.target.value)||0);
+    if(act==="visits") s.visits = Math.max(0, Number(e.target.value)||0);
+    var rc = tr.querySelector('[data-role=rowcost]'); if(rc) rc.textContent = sar(s.on ? s.cost*s.visits : 0);
+    refresh();
+  });
+  body.addEventListener("change", function(e){
+    if(e.target.dataset.act!=="on") return;
+    var tr=e.target.closest("tr"), i=+tr.dataset.i, s=active().services[i];
+    s.on=e.target.checked; tr.className=s.on?"":"off";
+    var rc=tr.querySelector('[data-role=rowcost]'); if(rc) rc.textContent=sar(s.on?s.cost*s.visits:0);
+    refresh();
+  });
+  body.addEventListener("click", function(e){
+    var addBtn = e.target.closest('[data-act=add-in]');
+    if(addBtn){
+      var g=addBtn.dataset.group, q=active(), lastIdx=-1;
+      q.services.forEach(function(s,idx){ if((s.g||"Services")===g) lastIdx=idx; });
+      var ns={g:g, n:"New service", note:"", on:true, cost:0, visits:1};
+      if(lastIdx>=0) q.services.splice(lastIdx+1,0,ns); else q.services.push(ns);
+      buildTable(); refresh(); focusNewName(lastIdx+1);
+      return;
+    }
+    if(e.target.dataset.act!=="rm") return;
+    var tr=e.target.closest("tr"), i=+tr.dataset.i;
+    active().services.splice(i,1); buildTable(); refresh();
+  });
+  // editable service name
+  body.addEventListener("dblclick", function(e){
+    var nm=e.target.closest('[data-act=name]'); if(!nm) return;
+    nm.setAttribute("contenteditable","true"); nm.focus();
+  });
+  body.addEventListener("blur", function(e){
+    var nm=e.target.closest&&e.target.closest('[data-act=name]'); if(!nm) return;
+    var tr=nm.closest("tr"), i=+tr.dataset.i;
+    active().services[i].n = nm.textContent.trim()||"Service";
+    nm.setAttribute("contenteditable","false"); persist();
+  }, true);
+
+  // settings
+  document.querySelectorAll("[data-k]").forEach(function(el){
+    el.addEventListener("input", function(){
+      var k=el.dataset.k, q=active();
+      if(k==="client"){ q[k]=el.value; }
+      else { q[k] = el.value===""? "" : (Number(el.value)||0); }
+      refresh();
+    });
+  });
+  function syncSettings(){
+    var q=active();
+    document.querySelectorAll("[data-k]").forEach(function(el){ el.value = q[el.dataset.k]; });
+  }
+
+  function modalSection(){
+    modal.innerHTML =
+      '<h3>Add section</h3><p>Create a new service category.</p>'+
+      '<div class="field"><label>Section name</label><input type="text" id="m-sec" placeholder="e.g. Imaging"></div>'+
+      '<div class="acts"><button class="btn ghost" id="m-cancel">Cancel</button><button class="btn primary" id="m-ok">Add</button></div>';
+    overlay.hidden=false; var si=document.getElementById("m-sec"); si.focus();
+    document.getElementById("m-cancel").onclick=closeModal;
+    function go(){
+      var name=si.value.trim()||"New section", q=active();
+      q.services.push({g:name, n:"New service", note:"", on:true, cost:0, visits:1});
+      persist(); closeModal(); buildTable(); refresh();
+      focusNewName(q.services.length-1);
+    }
+    document.getElementById("m-ok").onclick=go;
+    si.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
+  }
+  document.getElementById("add-section").addEventListener("click", modalSection);
+
+  // ---- modal ----
+  var overlay=document.getElementById("overlay"), modal=document.getElementById("modal");
+  function closeModal(){ overlay.hidden=true; modal.innerHTML=""; }
+  overlay.addEventListener("click", function(e){ if(e.target===overlay) closeModal(); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape"&&!overlay.hidden) closeModal(); });
+
+  function modalNew(){
+    var opts=Object.keys(TEMPLATES).map(function(k){return '<option value="'+k+'">'+esc(TEMPLATES[k].label)+'</option>';}).join("");
+    modal.innerHTML =
+      '<h3>New quotation</h3><p>Name the project and choose a starting point.</p>'+
+      '<div class="field"><label>Quotation name</label><input type="text" id="m-name" placeholder="e.g. Tawuniya VIP 2026"></div>'+
+      '<div class="field"><label>Start from</label><select id="m-tpl">'+opts+'</select></div>'+
+      '<div class="acts"><button class="btn ghost" id="m-cancel">Cancel</button><button class="btn primary" id="m-ok">Create</button></div>';
+    overlay.hidden=false; var ni=document.getElementById("m-name"); ni.focus();
+    document.getElementById("m-cancel").onclick=closeModal;
+    function go(){
+      var name=ni.value.trim()||"Untitled quotation", tpl=document.getElementById("m-tpl").value;
+      var q=newQuote(name,tpl); q.client=name;
+      store.quotes.push(q); store.activeId=q.id; persist();
+      closeModal(); buildSwitcher(); syncSettings(); buildTable(); refresh();
+    }
+    document.getElementById("m-ok").onclick=go;
+    ni.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
+  }
+
+  function modalRename(){
+    var q=active();
+    modal.innerHTML =
+      '<h3>Rename quotation</h3>'+
+      '<div class="field"><label>Quotation name</label><input type="text" id="m-name" value="'+esc(q.name)+'"></div>'+
+      '<div class="acts"><button class="btn ghost" id="m-cancel">Cancel</button><button class="btn primary" id="m-ok">Save</button></div>';
+    overlay.hidden=false; var ni=document.getElementById("m-name"); ni.focus(); ni.select();
+    document.getElementById("m-cancel").onclick=closeModal;
+    function go(){ q.name=ni.value.trim()||"Untitled quotation"; persist(); closeModal(); buildSwitcher(); refresh(); }
+    document.getElementById("m-ok").onclick=go;
+    ni.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
+  }
+
+  function modalDelete(){
+    var q=active();
+    modal.innerHTML =
+      '<h3>Delete quotation?</h3><p>"'+esc(q.name)+'" will be permanently removed. This cannot be undone.</p>'+
+      '<div class="acts"><button class="btn ghost" id="m-cancel">Cancel</button><button class="btn danger" id="m-ok">Delete</button></div>';
+    overlay.hidden=false;
+    document.getElementById("m-cancel").onclick=closeModal;
+    document.getElementById("m-ok").onclick=function(){
+      store.quotes = store.quotes.filter(function(x){return x.id!==q.id;});
+      if(!store.quotes.length){ var nq=newQuote("Untitled quotation","blank"); store.quotes.push(nq); }
+      store.activeId = store.quotes[0].id; persist();
+      closeModal(); buildSwitcher(); syncSettings(); buildTable(); refresh();
+    };
+  }
+
+  document.getElementById("new-quote").onclick=modalNew;
+  document.getElementById("rename-quote").onclick=modalRename;
+  document.getElementById("del-quote").onclick=modalDelete;
+  document.getElementById("dup-quote").onclick=function(){
+    var q=active(), copy=JSON.parse(JSON.stringify(q));
+    copy.id=uid(); copy.name=q.name+" (copy)"; copy.createdAt=copy.updatedAt=Date.now();
+    store.quotes.push(copy); store.activeId=copy.id; persist();
+    buildSwitcher(); syncSettings(); buildTable(); refresh();
+  };
+
+  // backup / restore / export
+  function download(obj, filename){
+    var blob=new Blob([JSON.stringify(obj,null,2)],{type:"application/json"});
+    var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+  }
+  document.getElementById("backup").onclick=function(){ download(store, "valeo-quotations-backup.json"); };
+  document.getElementById("export").onclick=function(){
+    var q=active(); download(q, "valeo-quote-"+(q.name||"quote").toLowerCase().replace(/[^a-z0-9]+/g,"-")+".json");
+  };
+  document.getElementById("restore").onclick=function(){ document.getElementById("restore-file").click(); };
+  document.getElementById("restore-file").addEventListener("change", function(e){
+    var f=e.target.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var data=JSON.parse(r.result);
+        if(data && data.quotes){ store=data; }                 // full backup
+        else if(data && data.services){ data.id=uid(); store.quotes.push(data); store.activeId=data.id; } // single quote
+        else { alert("That file is not a valid quotation backup."); return; }
+        persist(); buildSwitcher(); syncSettings(); buildTable(); refresh();
+      }catch(err){ alert("Could not read that file."); }
+    };
+    r.readAsText(f); e.target.value="";
+  });
+
+  document.getElementById("print").onclick=function(){ renderQuoteDoc(); window.print(); };
+
+  // ---- refresh ----
+  function refresh(){
+    var q=active(), c=compute();
+    document.getElementById("s-client").textContent = q.client || q.name || "—";
+    document.getElementById("s-members").textContent = "per member · " + nf.format(c.members) + (c.members===1?" member":" members");
+    document.getElementById("s-monthly").innerHTML = sar(c.monthlyFee) + "<small>/mo</small>";
+    document.getElementById("s-monthly-year").textContent = sar(c.monthlyAnnualized) + " / year";
+    document.getElementById("s-annual").innerHTML = sar(c.annualFee) + "<small>/yr</small>";
+    document.getElementById("s-savings").textContent = c.savings>0 ? ("Saves " + sar(c.savings) + "/yr vs monthly") : "Best value";
+    document.getElementById("s-memcount").textContent = nf.format(c.members);
+    document.getElementById("s-tot-monthly").textContent = sar(c.totMonthly) + "/mo";
+    document.getElementById("s-acv").textContent = sar(c.acv);
+    document.getElementById("s-cogs").textContent = sar(c.cogs);
+    document.getElementById("s-margin").textContent = sar(c.marginAnnual);
+    document.getElementById("s-marginpct").textContent = Math.round(c.marginPct) + "%";
+    q.updatedAt = Date.now();
+    persist();
+  }
+
+  function renderQuoteDoc(){
+    var q=active(), c=compute(), byG={};
+    q.services.forEach(function(s){ if(s.on){ (byG[s.g]=byG[s.g]||[]).push(s); } });
+    var svcHtml="";
+    Object.keys(byG).forEach(function(g){
+      svcHtml += '<h2>'+esc(g||"Services")+'</h2><table><tbody>';
+      byG[g].forEach(function(s){
+        svcHtml += '<tr><td class="l">'+esc(s.n)+(s.note?' <span style="color:#888">('+esc(s.note)+')</span>':'')+'</td><td>'+(s.visits?(s.visits+'×/yr'):'included')+'</td></tr>';
+      });
+      svcHtml += '</tbody></table>';
+    });
+    var d=new Date();
+    document.getElementById("quote-doc").innerHTML =
+      '<div class="q-head"><div class="q-word">VALEO</div><div style="margin-left:auto;text-align:right;color:#555">Quotation</div></div>'+
+      '<div class="meta"><strong>Prepared for:</strong> '+esc(q.client||q.name||"—")+'<br>'+
+        '<strong>Members:</strong> '+nf.format(c.members)+' &nbsp;·&nbsp; <strong>Date:</strong> '+d.toLocaleDateString()+'</div>'+
+      '<h2 style="margin-top:16px">Membership pricing (per member)</h2>'+
+      '<div class="price-box">'+
+        '<div class="pb"><div class="l">Monthly plan</div><div class="v">'+sar(c.monthlyFee)+' / month</div><div style="color:#555;font-size:10.5px">'+sar(c.monthlyAnnualized)+' per year</div></div>'+
+        '<div class="pb"><div class="l">Annual plan</div><div class="v">'+sar(c.annualFee)+' / year</div><div style="color:#555;font-size:10.5px">'+(c.savings>0?('saves '+sar(c.savings)+' vs monthly'):'best value')+'</div></div>'+
+      '</div>'+
+      '<h2>Total program value</h2><table><tbody>'+
+        '<tr><td class="l">Annual contract value ('+nf.format(c.members)+' members, annual plan)</td><td>'+sar(c.acv)+'</td></tr>'+
+        '<tr><td class="l">Total if billed monthly (all members)</td><td>'+sar(c.totMonthlyYear)+' / year</td></tr>'+
+      '</tbody></table>'+
+      '<h2>Services included</h2>'+svcHtml+
+      '<div class="note">Prices exclude VAT. Services are personalized per member after onboarding based on physician recommendations.</div>';
+  }
+
+  // init
+  buildSwitcher();
+  syncSettings();
+  buildTable();
+  refresh();
+})();
+</script>
+</body>
+</html>
