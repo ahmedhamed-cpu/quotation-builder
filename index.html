@@ -65,20 +65,38 @@
   .card .bd{padding:16px 18px}
   .stack{display:flex;flex-direction:column;gap:22px}
 
-  /* project bar */
   .proj-row{display:flex;gap:10px;align-items:center}
   .proj-row select{flex:1;min-width:0}
   .proj-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 
+  .seg{display:inline-flex;background:var(--surface-2);border:1px solid var(--field-line);border-radius:10px;padding:3px;margin-bottom:16px}
+  .seg button{border:none;background:none;font:inherit;font-weight:500;font-size:13.5px;padding:7px 15px;border-radius:8px;color:var(--muted);cursor:pointer}
+  .seg button.active{background:var(--navy);color:#fff}
+
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   @media (max-width:520px){.grid{grid-template-columns:1fr}}
   .field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-weight:500}
+  .field.full{grid-column:1/-1}
+  .field[hidden]{display:none}
   .field .suffix{position:relative}
   .field .suffix small{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12.5px;pointer-events:none}
   input[type=text],input[type=number],select{width:100%;padding:9px 11px;border:1px solid var(--field-line);border-radius:9px;
     background:var(--field);color:var(--ink);font:inherit;font-variant-numeric:tabular-nums;}
   input:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
   input[type=number]{appearance:textfield}
+  .chkline{display:flex;align-items:center;gap:9px;font-size:13.5px;margin-top:26px}
+  .chkline input{width:18px;height:18px;accent-color:var(--navy)}
+
+  .ms{position:relative}
+  .ms-box{min-height:40px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:7px 11px;border:1px solid var(--field-line);border-radius:9px;background:var(--field);cursor:pointer}
+  .ms-box .ph{color:var(--muted)}
+  .ms-chip{background:var(--navy);color:#fff;font-size:12px;padding:3px 4px 3px 9px;border-radius:20px;display:inline-flex;gap:5px;align-items:center}
+  .ms-chip b{cursor:pointer;font-weight:700;opacity:.85;padding:0 4px}
+  .ms-panel{position:absolute;z-index:20;top:calc(100% + 4px);left:0;right:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);max-height:240px;overflow:auto;padding:6px}
+  .ms-panel[hidden]{display:none}
+  .ms-opt{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:7px;font-size:13.5px;cursor:pointer}
+  .ms-opt:hover{background:var(--surface-2)}
+  .ms-opt input{width:17px;height:17px;accent-color:var(--navy)}
 
   .group-title{font-size:12px;letter-spacing:.06em;color:var(--gold);font-weight:600;text-transform:uppercase;margin:18px 0 8px;padding-top:4px}
   .group-title:first-child{margin-top:2px}
@@ -119,14 +137,14 @@
 
   .summary{position:sticky;top:16px}
   @media (max-width:980px){.summary{position:static}}
-  .sum-head{padding:16px 18px 6px}
+  .sum-head{padding:16px 18px 10px}
   .sum-head .cl{font-family:Spectral,Georgia,serif;font-size:18px}
   .sum-head .mem{font-size:12.5px;color:var(--muted);margin-top:2px}
-  .plans{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line);margin-top:10px}
+  .plans{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
   .plan{padding:16px 18px;border-right:1px solid var(--line)}
   .plan:last-child{border-right:none;background:var(--surface-2)}
   .plan .lab{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
-  .plan .fig{font-family:Spectral,Georgia,serif;font-size:27px;font-weight:600;margin-top:7px;line-height:1.05;font-variant-numeric:tabular-nums}
+  .plan .fig{font-family:Spectral,Georgia,serif;font-size:26px;font-weight:600;margin-top:7px;line-height:1.05;font-variant-numeric:tabular-nums}
   .plan .fig small{font-size:14px;color:var(--muted);font-weight:500;font-family:Inter,sans-serif}
   .plan .sub{font-size:12px;color:var(--muted);margin-top:5px;min-height:16px}
   .plan .tag{display:inline-block;font-size:11px;color:var(--pos);font-weight:600;margin-top:4px}
@@ -136,14 +154,13 @@
   .line .rv{font-variant-numeric:tabular-nums;font-weight:500}
   .line.big{padding-top:9px;border-top:1px dashed var(--line)}
   .line.big .lv{color:var(--ink);font-weight:600}
-  .line.big .rv{font-family:Spectral,serif;font-size:19px;font-weight:600;color:var(--navy)}
-  .internal{margin:0 18px 16px;padding:12px 14px;background:var(--surface-2);border:1px dashed var(--line);border-radius:10px}
+  .line.big .rv{font-family:Spectral,serif;font-size:19px;font-weight:600;color:var(--gold)}
+  .internal{margin:14px 18px 16px;padding:12px 14px;background:var(--surface-2);border:1px dashed var(--line);border-radius:10px}
   .internal .it{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
   .sum-actions{padding:0 18px 18px;display:flex;gap:10px}
   .sum-actions .btn{flex:1;text-align:center}
   .foot{max-width:1240px;margin:0 auto;padding:4px 22px 30px;color:var(--muted);font-size:12px}
 
-  /* modal */
   .overlay{position:fixed;inset:0;background:rgba(16,28,38,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
   .overlay[hidden]{display:none}
   .modal{background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.35);width:100%;max-width:420px;padding:20px}
@@ -154,22 +171,31 @@
 
   #quote-doc{display:none}
   @media print{
-    @page{margin:16mm}
+    @page{margin:12mm}
     header,.wrap,.foot,.overlay{display:none !important}
     body{background:#fff;color:#000}
-    #quote-doc{display:block;max-width:720px;margin:0 auto;font-size:12px;color:#111}
-    #quote-doc .q-head{display:flex;align-items:center;gap:12px;border-bottom:2px solid #213748;padding-bottom:10px}
-    #quote-doc .q-word{font-family:Spectral,serif;font-size:20px;letter-spacing:.14em;color:#213748;font-weight:600}
-    #quote-doc h2{font-family:Spectral,serif;font-size:16px;margin:18px 0 6px;color:#213748}
-    #quote-doc .meta{margin-top:10px;color:#333}
-    #quote-doc table{width:100%;margin-top:6px}
-    #quote-doc th,#quote-doc td{border-top:1px solid #ccc;padding:5px 6px;text-align:right;font-variant-numeric:tabular-nums}
-    #quote-doc th.l,#quote-doc td.l{text-align:left}
-    #quote-doc .price-box{display:flex;gap:14px;margin-top:8px}
-    #quote-doc .pb{flex:1;border:1px solid #213748;border-radius:8px;padding:10px 12px}
-    #quote-doc .pb .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:#555}
-    #quote-doc .pb .v{font-family:Spectral,serif;font-size:20px;color:#213748;font-weight:600}
-    #quote-doc .note{margin-top:14px;color:#555;font-size:10.5px}
+    #quote-doc{display:block;max-width:760px;margin:0 auto;color:#111;font-size:11.5px}
+    #quote-doc *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .qr-title{background:#213748;color:#fff;padding:16px 18px;border-radius:6px 6px 0 0}
+    .qr-title h1{font-family:Spectral,serif;font-size:19px;margin:0}
+    .qr-title .sub{color:#cdd9e2;font-size:11px;margin-top:5px}
+    .qr-note{background:#fff3b0;color:#4a3d00;font-size:10.5px;padding:9px 12px;border:1px solid #e7d27a;border-top:none;line-height:1.45}
+    table.qr{width:100%;border-collapse:collapse}
+    table.qr th{background:#213748;color:#fff;font-size:10px;text-transform:uppercase;letter-spacing:.03em;padding:7px 8px;text-align:right}
+    table.qr th.l{text-align:left}
+    table.qr td{padding:6px 8px;border-bottom:1px solid #e4e9ee;text-align:right;font-variant-numeric:tabular-nums}
+    table.qr td.l{text-align:left}
+    tr.sec td{background:#213748 !important;color:#e6d2a0 !important;font-weight:700;text-transform:uppercase;font-size:10.5px;letter-spacing:.04em}
+    tr.sub td{background:#eef2f6;font-weight:700}
+    tr.off2 td{color:#9aa7b2}
+    .qr-bar{background:#213748;color:#fff;font-family:Spectral,serif;font-weight:600;padding:10px 12px;display:flex;justify-content:space-between;font-size:13px;margin-top:3px;border-radius:0 0 4px 4px}
+    .qr-sumhead{background:#2a4457;color:#fff;font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:11px;padding:8px 12px;margin-top:16px}
+    table.qs{width:100%;border-collapse:collapse}
+    table.qs td{padding:6px 12px;border-bottom:1px solid #e4e9ee}
+    table.qs td.r{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+    table.qs tr.hi td{background:#f6efd9}
+    table.qs tr.hi td.r{color:#213748;font-family:Spectral,serif;font-size:15px}
+    .qr-foot{color:#666;font-size:10px;margin-top:14px;line-height:1.5}
   }
 </style>
 </head>
@@ -185,7 +211,7 @@
     </div>
     <div class="head-title">
       <div class="k">Quotation Builder</div>
-      <div class="s">Multi-project · per member & subscription</div>
+      <div class="s">Multi-project · subscription or one-time event</div>
     </div>
   </div>
 </header>
@@ -212,24 +238,39 @@
     </section>
 
     <section class="card">
-      <div class="hd"><h2>Settings</h2><span class="hint">Client, members and pricing rules for this quotation</span></div>
+      <div class="hd"><h2>Settings</h2><span class="hint">Pricing model, client, cities and rules</span></div>
       <div class="bd">
+        <div class="seg" id="type-seg">
+          <button type="button" data-type="subscription">Subscription</button>
+          <button type="button" data-type="event">One-time event</button>
+        </div>
         <div class="grid">
-          <div class="field" style="grid-column:1/-1">
+          <div class="field full">
             <label for="client">Client</label>
             <input type="text" id="client" data-k="client">
           </div>
           <div class="field">
-            <label for="members">Number of members</label>
+            <label for="members" id="lbl-members">Number of members</label>
             <input type="number" id="members" data-k="members" min="1" step="1">
+          </div>
+          <div class="field" id="f-days">
+            <label for="days">Number of days</label>
+            <input type="number" id="days" data-k="days" min="1" step="1">
+          </div>
+          <div class="field" id="f-perday">
+            <label class="chkline"><input type="checkbox" id="perday" data-k="perDay"> Service costs are per day (× days)</label>
+          </div>
+          <div class="field" id="f-uplift">
+            <label for="uplift">Monthly-plan uplift vs annual</label>
+            <div class="suffix"><input type="number" id="uplift" data-k="uplift" min="0" step="1"><small>%</small></div>
           </div>
           <div class="field">
             <label for="markup">Markup on cost</label>
             <div class="suffix"><input type="number" id="markup" data-k="markup" min="0" step="1"><small>%</small></div>
           </div>
           <div class="field">
-            <label for="uplift">Monthly-plan uplift vs annual</label>
-            <div class="suffix"><input type="number" id="uplift" data-k="uplift" min="0" step="1"><small>%</small></div>
+            <label for="vat">VAT rate</label>
+            <div class="suffix"><input type="number" id="vat" data-k="vat" min="0" step="0.5"><small>%</small></div>
           </div>
           <div class="field">
             <label for="rounding">Round prices to nearest</label>
@@ -241,12 +282,19 @@
               <option value="100">SAR 100</option>
             </select>
           </div>
+          <div class="field full">
+            <label>Cities covered (KSA)</label>
+            <div class="ms" id="cities-ms">
+              <div class="ms-box" id="cities-box"><span class="ph">Select one or more cities</span></div>
+              <div class="ms-panel" id="cities-panel" hidden></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="card">
-      <div class="hd"><h2>Services per member</h2><span class="hint">Enter your B2B cost & visits/year; untick to exclude</span></div>
+      <div class="hd"><h2>Services per member</h2><span class="hint">Enter your B2B cost; untick to exclude</span></div>
       <div class="bd">
         <table>
           <thead>
@@ -254,8 +302,8 @@
               <th style="width:28px"></th>
               <th class="l">Service</th>
               <th>Cost / unit</th>
-              <th>Visits / yr</th>
-              <th>Annual cost</th>
+              <th id="th-qty">Visits / yr</th>
+              <th id="th-line">Annual cost</th>
               <th style="width:24px"></th>
             </tr>
           </thead>
@@ -274,40 +322,16 @@
         <div class="cl" id="s-client">Client</div>
         <div class="mem" id="s-members">per member</div>
       </div>
-      <div class="plans">
-        <div class="plan">
-          <div class="lab">Monthly plan</div>
-          <div class="fig num" id="s-monthly">SAR 0<small>/mo</small></div>
-          <div class="sub num" id="s-monthly-year">SAR 0 / year</div>
-        </div>
-        <div class="plan">
-          <div class="lab">Annual plan</div>
-          <div class="fig num" id="s-annual">SAR 0<small>/yr</small></div>
-          <div class="sub"><span class="tag" id="s-savings">Best value</span></div>
-        </div>
-      </div>
-      <div class="totes">
-        <div class="line"><span class="lv">Members</span><span class="rv num" id="s-memcount">0</span></div>
-        <div class="line"><span class="lv">Total monthly plan (all members)</span><span class="rv num" id="s-tot-monthly">SAR 0/mo</span></div>
-        <div class="line big"><span class="lv">Annual contract value</span><span class="rv num" id="s-acv">SAR 0</span></div>
-      </div>
-      <div class="internal">
-        <div class="it">Internal · cost basis (not shown to client)</div>
-        <div class="totes" style="padding:0;gap:7px">
-          <div class="line"><span class="lv">Annual cost / member</span><span class="rv num" id="s-cogs">SAR 0</span></div>
-          <div class="line"><span class="lv">Margin / member (annual)</span><span class="rv num" id="s-margin">SAR 0</span></div>
-          <div class="line"><span class="lv">Gross margin</span><span class="rv num" id="s-marginpct">0%</span></div>
-        </div>
-      </div>
+      <div id="sum-body"></div>
       <div class="sum-actions">
-        <button class="btn primary" id="print">Print / save quote</button>
-        <button class="btn" id="export">Export quote</button>
+        <button class="btn primary" id="print">Export report</button>
+        <button class="btn" id="export">Export data</button>
       </div>
     </section>
   </aside>
 </div>
 
-<div class="foot">Prices exclude VAT. Quotations are saved in this browser. Use Backup all before clearing browser data or to move quotations between machines.</div>
+<div class="foot">Prices shown exclude VAT unless the report states otherwise. Quotations are saved in this browser; use Backup all to move them between machines.</div>
 
 <div class="overlay" id="overlay" hidden><div class="modal" id="modal"></div></div>
 <div id="quote-doc"></div>
@@ -315,7 +339,11 @@
 <script>
 (function(){
   "use strict";
-  var STORE_KEY = "valeo_quotes_v1";
+  var STORE_KEY = "valeo_quotes_v2";
+
+  var CITIES = ["Riyadh","Jeddah","Makkah","Madinah","Dammam","Al Khobar","Dhahran","Taif",
+    "Buraidah","Tabuk","Hail","Al Ahsa (Hofuf)","Jubail","Yanbu","Khamis Mushait","Abha",
+    "Najran","Jizan","Al Qatif","Sakaka","Arar","Al Bahah"];
 
   function execServices(){
     var rows = [
@@ -337,7 +365,7 @@
       ["Blood, Organs & Hormones","Urine analysis","",1],
       ["Longevity & Follow-up","Valeo Longevity Blood Panel","",1],
       ["Longevity & Follow-up","Doctor results consultation","",1],
-      ["Longevity & Follow-up","Unlimited 15-min physician follow-ups","set a notional count/yr for costing",4],
+      ["Longevity & Follow-up","Unlimited 15-min physician follow-ups","set a notional count for costing",4],
       ["Longevity & Follow-up","Dietitian session","",1],
       ["Longevity & Follow-up","Longevity Score & progress tracking","",1],
       ["Longevity & Follow-up","Personal health report","",1],
@@ -349,7 +377,7 @@
       ["Optional Add-ons","Chest X-ray","mobile diagnostics",1],
       ["Optional Add-ons","Mobile diagnostic scans","",1]
     ];
-    var out = [];
+    var out=[];
     rows.forEach(function(r){ out.push({g:r[0],n:r[1],note:r[2],on:true,cost:0,visits:r[3]}); });
     addons.forEach(function(r){ out.push({g:r[0],n:r[1],note:r[2],on:false,cost:0,visits:r[3]}); });
     return out;
@@ -364,17 +392,33 @@
 
   function newQuote(name, templateKey){
     var t = TEMPLATES[templateKey] || TEMPLATES.blank;
-    return {
+    return normalize({
       id:uid(), name:name||"Untitled quotation", client:name||"",
-      members:50, markup:40, uplift:15, rounding:10,
+      type:"subscription", days:1, perDay:false, cities:["Riyadh"],
+      members:50, markup:40, uplift:15, vat:15, rounding:10,
       services:t.build(), createdAt:Date.now(), updatedAt:Date.now()
-    };
+    });
+  }
+
+  function normalize(q){
+    if(!q) return q;
+    if(q.type!=="event" && q.type!=="subscription") q.type="subscription";
+    if(q.days==null) q.days=1;
+    if(q.perDay==null) q.perDay=false;
+    if(!Array.isArray(q.cities)) q.cities = q.cities? [q.cities] : ["Riyadh"];
+    if(q.vat==null) q.vat=15;
+    if(q.members==null) q.members=50;
+    if(q.markup==null) q.markup=40;
+    if(q.uplift==null) q.uplift=15;
+    if(q.rounding==null) q.rounding=10;
+    if(!Array.isArray(q.services)) q.services=[];
+    return q;
   }
 
   function seedStore(){
     var q = newQuote("Chedid VIP Clients","executive");
-    q.client = "Chedid VIP Clients";
-    return {version:1, activeId:q.id, quotes:[q]};
+    q.client = "Chedid VIP Clients"; q.cities=["Riyadh"];
+    return {version:2, activeId:q.id, quotes:[q]};
   }
 
   var store = load();
@@ -382,7 +426,12 @@
   function load(){
     try{
       var raw = localStorage.getItem(STORE_KEY);
-      if(raw){ var p = JSON.parse(raw); if(p && p.quotes && p.quotes.length) return p; }
+      if(raw){ var p = JSON.parse(raw); if(p && p.quotes && p.quotes.length){ p.quotes.forEach(normalize); return p; } }
+    }catch(e){}
+    // migrate from v1 single-quote store if present
+    try{
+      var old = localStorage.getItem("valeo_quotes_v1");
+      if(old){ var o=JSON.parse(old); if(o && o.quotes && o.quotes.length){ o.quotes.forEach(normalize); o.version=2; return o; } }
     }catch(e){}
     return seedStore();
   }
@@ -390,7 +439,7 @@
   function active(){
     var q = store.quotes.filter(function(x){return x.id===store.activeId;})[0];
     if(!q){ q = store.quotes[0]; store.activeId = q.id; }
-    return q;
+    return normalize(q);
   }
 
   var nf = new Intl.NumberFormat("en-US",{maximumFractionDigits:0});
@@ -399,20 +448,34 @@
   function esc(t){ return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
 
   function compute(){
-    var q = active(), cogs = 0;
-    q.services.forEach(function(s){ if(s.on){ cogs += (Number(s.cost)||0) * (Number(s.visits)||0); } });
-    var markup=Number(q.markup)||0, uplift=Number(q.uplift)||0, step=Number(q.rounding)||1;
-    var members=Math.max(0,Number(q.members)||0);
-    var sellAnnual = cogs * (1 + markup/100);
-    var annualFee = roundTo(sellAnnual, step);
-    var monthlyFee = roundTo(sellAnnual/12 * (1 + uplift/100), step);
-    var monthlyAnnualized = monthlyFee * 12;
-    var savings = monthlyAnnualized - annualFee;
-    var marginAnnual = annualFee - cogs;
-    var marginPct = annualFee>0 ? (marginAnnual/annualFee*100) : 0;
-    return {cogs:cogs, annualFee:annualFee, monthlyFee:monthlyFee, monthlyAnnualized:monthlyAnnualized,
-      savings:savings, marginAnnual:marginAnnual, marginPct:marginPct, members:members,
-      totMonthly:monthlyFee*members, totMonthlyYear:monthlyAnnualized*members, acv:annualFee*members};
+    var q=active(), cogs=0;
+    q.services.forEach(function(s){ if(s.on){ cogs += (Number(s.cost)||0)*(Number(s.visits)||0); } });
+    var markup=Number(q.markup)||0, step=Number(q.rounding)||1, members=Math.max(0,Number(q.members)||0), vat=Number(q.vat)||0;
+    if(q.type==="event"){
+      var days=Math.max(1,Number(q.days)||1), perDay=!!q.perDay;
+      var perMemberCost = cogs * (perDay? days : 1);
+      var perMemberSell = roundTo(perMemberCost*(1+markup/100), step);
+      var totalSell = perMemberSell*members;
+      return {type:"event", cogs:cogs, days:days, perDay:perDay, members:members, markup:markup, vat:vat,
+        b2bPerMember:perMemberCost, perMemberSell:perMemberSell, totalSell:totalSell,
+        marginPerMember:perMemberSell-perMemberCost,
+        marginPct: perMemberSell>0?((perMemberSell-perMemberCost)/perMemberSell*100):0,
+        perMemberVat:perMemberSell*vat/100, perMemberIncl:perMemberSell*(1+vat/100),
+        totalVat:totalSell*vat/100, totalIncl:totalSell*(1+vat/100)};
+    } else {
+      var uplift=Number(q.uplift)||0;
+      var sellAnnual = cogs*(1+markup/100);
+      var annualFee = roundTo(sellAnnual, step);
+      var monthlyFee = roundTo(sellAnnual/12*(1+uplift/100), step);
+      var monthlyAnnualized = monthlyFee*12;
+      return {type:"subscription", cogs:cogs, members:members, markup:markup, uplift:uplift, vat:vat,
+        b2bPerMember:cogs, annualFee:annualFee, monthlyFee:monthlyFee, monthlyAnnualized:monthlyAnnualized,
+        savings:monthlyAnnualized-annualFee, marginAnnual:annualFee-cogs,
+        marginPct: annualFee>0?((annualFee-cogs)/annualFee*100):0,
+        annualVat:annualFee*vat/100, annualIncl:annualFee*(1+vat/100),
+        monthlyVat:monthlyFee*vat/100, monthlyIncl:monthlyFee*(1+vat/100),
+        acv:annualFee*members, totMonthly:monthlyFee*members, totMonthlyYear:monthlyAnnualized*members};
+    }
   }
 
   // ---- switcher ----
@@ -420,15 +483,59 @@
   function buildSwitcher(){
     sw.innerHTML = "";
     store.quotes.forEach(function(q){
-      var o = document.createElement("option");
-      o.value = q.id; o.textContent = q.name || "Untitled";
-      if(q.id===store.activeId) o.selected = true;
-      sw.appendChild(o);
+      var o=document.createElement("option"); o.value=q.id; o.textContent=q.name||"Untitled";
+      if(q.id===store.activeId) o.selected=true; sw.appendChild(o);
     });
   }
-  sw.addEventListener("change", function(){ store.activeId = sw.value; persist(); syncSettings(); buildTable(); refresh(); });
+  sw.addEventListener("change", function(){ store.activeId=sw.value; persist(); syncSettings(); buildTable(); refresh(); });
 
-  // ---- table ----
+  // ---- type segmented + conditional fields ----
+  var seg = document.getElementById("type-seg");
+  seg.addEventListener("click", function(e){
+    var b=e.target.closest("[data-type]"); if(!b) return;
+    active().type=b.dataset.type; persist(); setTypeUI(); buildTable(); refresh();
+  });
+  function setTypeUI(){
+    var q=active(), isEvent=q.type==="event";
+    seg.querySelectorAll("[data-type]").forEach(function(b){ b.classList.toggle("active", b.dataset.type===q.type); });
+    document.getElementById("f-uplift").hidden = isEvent;
+    document.getElementById("f-days").hidden = !isEvent;
+    document.getElementById("f-perday").hidden = !isEvent;
+    document.getElementById("lbl-members").textContent = isEvent? "Number of attendees" : "Number of members";
+    document.getElementById("th-qty").textContent = isEvent? "Qty / member" : "Visits / yr";
+    document.getElementById("th-line").textContent = isEvent? "Cost / member" : "Annual cost";
+  }
+
+  // ---- cities multiselect ----
+  var cbox=document.getElementById("cities-box"), cpanel=document.getElementById("cities-panel");
+  function buildCitiesPanel(){
+    var sel=active().cities||[];
+    cpanel.innerHTML = CITIES.map(function(c){
+      return '<label class="ms-opt"><input type="checkbox" value="'+esc(c)+'" '+(sel.indexOf(c)>-1?"checked":"")+'> '+esc(c)+'</label>';
+    }).join("");
+  }
+  function renderCitiesBox(){
+    var sel=active().cities||[];
+    if(!sel.length){ cbox.innerHTML='<span class="ph">Select one or more cities</span>'; return; }
+    cbox.innerHTML = sel.map(function(c){ return '<span class="ms-chip">'+esc(c)+'<b data-rm="'+esc(c)+'">&times;</b></span>'; }).join("");
+  }
+  cbox.addEventListener("click", function(e){
+    var rm=e.target.closest("[data-rm]");
+    if(rm){ e.stopPropagation(); var q=active(); q.cities=q.cities.filter(function(x){return x!==rm.dataset.rm;}); persist(); renderCitiesBox(); buildCitiesPanel(); refresh(); return; }
+    cpanel.hidden=!cpanel.hidden; if(!cpanel.hidden) buildCitiesPanel();
+  });
+  cpanel.addEventListener("change", function(e){
+    var cb=e.target; if(cb.type!=="checkbox") return;
+    var q=active();
+    if(cb.checked){ if(q.cities.indexOf(cb.value)<0) q.cities.push(cb.value); }
+    else { q.cities=q.cities.filter(function(x){return x!==cb.value;}); }
+    persist(); renderCitiesBox(); refresh();
+  });
+  document.addEventListener("click", function(e){
+    if(!document.getElementById("cities-ms").contains(e.target)) cpanel.hidden=true;
+  });
+
+  // ---- services table ----
   var body = document.getElementById("svc-body");
   function rowHtml(s){
     return '<td><label class="chk"><input type="checkbox" data-act="on" '+(s.on?"checked":"")+'><span class="box"></span></label></td>'+
@@ -439,46 +546,37 @@
       '<td><button class="rm" data-act="rm" title="Remove service">&times;</button></td>';
   }
   function buildTable(){
-    var q = active();
-    body.innerHTML = "";
+    var q=active(); body.innerHTML="";
     if(!q.services.length){
-      var er = document.createElement("tr");
-      er.innerHTML = '<td colspan="6"><div class="empty-state">No services yet. Use "Add section" below to start.</div></td>';
+      var er=document.createElement("tr");
+      er.innerHTML='<td colspan="6"><div class="empty-state">No services yet. Use "Add section" below to start.</div></td>';
       body.appendChild(er); return;
     }
-    // ordered list of section names by first appearance
-    var order=[], seen={};
+    var order=[],seen={};
     q.services.forEach(function(s){ var g=s.g||"Services"; if(!seen[g]){ seen[g]=true; order.push(g); } });
     order.forEach(function(g){
-      var gr = document.createElement("tr");
-      gr.innerHTML = '<td colspan="6"><div class="group-title">'+esc(g)+'</div></td>';
-      body.appendChild(gr);
-      q.services.forEach(function(s, i){
+      var gr=document.createElement("tr"); gr.innerHTML='<td colspan="6"><div class="group-title">'+esc(g)+'</div></td>'; body.appendChild(gr);
+      q.services.forEach(function(s,i){
         if((s.g||"Services")!==g) return;
-        var tr = document.createElement("tr");
-        tr.className = s.on ? "" : "off";
-        tr.dataset.i = i;
-        tr.innerHTML = rowHtml(s);
-        body.appendChild(tr);
+        var tr=document.createElement("tr"); tr.className=s.on?"":"off"; tr.dataset.i=i; tr.innerHTML=rowHtml(s); body.appendChild(tr);
       });
-      var ar = document.createElement("tr");
-      ar.className = "add-row";
-      ar.innerHTML = '<td></td><td colspan="5"><button class="add-link" data-act="add-in" data-group="'+esc(g)+'">+ Add service to '+esc(g)+'</button></td>';
+      var ar=document.createElement("tr"); ar.className="add-row";
+      ar.innerHTML='<td></td><td colspan="5"><button class="add-link" data-act="add-in" data-group="'+esc(g)+'">+ Add service to '+esc(g)+'</button></td>';
       body.appendChild(ar);
     });
   }
   function focusNewName(idx){
-    var tr = body.querySelector('tr[data-i="'+idx+'"]');
+    var tr=body.querySelector('tr[data-i="'+idx+'"]');
     if(tr){ var nm=tr.querySelector('[data-act=name]'); nm.setAttribute("contenteditable","true"); nm.focus();
       try{ document.getSelection().selectAllChildren(nm); }catch(e){} }
   }
 
   body.addEventListener("input", function(e){
-    var tr = e.target.closest("tr"); if(!tr||tr.dataset.i===undefined) return;
+    var tr=e.target.closest("tr"); if(!tr||tr.dataset.i===undefined) return;
     var i=+tr.dataset.i, act=e.target.dataset.act, s=active().services[i];
-    if(act==="cost") s.cost = Math.max(0, Number(e.target.value)||0);
-    if(act==="visits") s.visits = Math.max(0, Number(e.target.value)||0);
-    var rc = tr.querySelector('[data-role=rowcost]'); if(rc) rc.textContent = sar(s.on ? s.cost*s.visits : 0);
+    if(act==="cost") s.cost=Math.max(0,Number(e.target.value)||0);
+    if(act==="visits") s.visits=Math.max(0,Number(e.target.value)||0);
+    var rc=tr.querySelector('[data-role=rowcost]'); if(rc) rc.textContent=sar(s.on?s.cost*s.visits:0);
     refresh();
   });
   body.addEventListener("change", function(e){
@@ -489,20 +587,18 @@
     refresh();
   });
   body.addEventListener("click", function(e){
-    var addBtn = e.target.closest('[data-act=add-in]');
+    var addBtn=e.target.closest('[data-act=add-in]');
     if(addBtn){
       var g=addBtn.dataset.group, q=active(), lastIdx=-1;
       q.services.forEach(function(s,idx){ if((s.g||"Services")===g) lastIdx=idx; });
-      var ns={g:g, n:"New service", note:"", on:true, cost:0, visits:1};
+      var ns={g:g,n:"New service",note:"",on:true,cost:0,visits:1};
       if(lastIdx>=0) q.services.splice(lastIdx+1,0,ns); else q.services.push(ns);
-      buildTable(); refresh(); focusNewName(lastIdx+1);
-      return;
+      buildTable(); refresh(); focusNewName(lastIdx+1); return;
     }
     if(e.target.dataset.act!=="rm") return;
     var tr=e.target.closest("tr"), i=+tr.dataset.i;
     active().services.splice(i,1); buildTable(); refresh();
   });
-  // editable service name
   body.addEventListener("dblclick", function(e){
     var nm=e.target.closest('[data-act=name]'); if(!nm) return;
     nm.setAttribute("contenteditable","true"); nm.focus();
@@ -510,41 +606,43 @@
   body.addEventListener("blur", function(e){
     var nm=e.target.closest&&e.target.closest('[data-act=name]'); if(!nm) return;
     var tr=nm.closest("tr"), i=+tr.dataset.i;
-    active().services[i].n = nm.textContent.trim()||"Service";
+    active().services[i].n=nm.textContent.trim()||"Service";
     nm.setAttribute("contenteditable","false"); persist();
   }, true);
 
-  // settings
+  // settings inputs
   document.querySelectorAll("[data-k]").forEach(function(el){
-    el.addEventListener("input", function(){
+    var ev = el.type==="checkbox" ? "change" : "input";
+    el.addEventListener(ev, function(){
       var k=el.dataset.k, q=active();
-      if(k==="client"){ q[k]=el.value; }
-      else { q[k] = el.value===""? "" : (Number(el.value)||0); }
+      if(el.type==="checkbox") q[k]=el.checked;
+      else if(k==="client") q[k]=el.value;
+      else q[k] = el.value===""? "" : (Number(el.value)||0);
       refresh();
     });
   });
   function syncSettings(){
     var q=active();
-    document.querySelectorAll("[data-k]").forEach(function(el){ el.value = q[el.dataset.k]; });
+    document.querySelectorAll("[data-k]").forEach(function(el){
+      if(el.type==="checkbox") el.checked=!!q[el.dataset.k];
+      else el.value=q[el.dataset.k];
+    });
+    setTypeUI(); renderCitiesBox(); buildCitiesPanel();
   }
 
-  function modalSection(){
+  document.getElementById("add-section").addEventListener("click", function(){
     modal.innerHTML =
       '<h3>Add section</h3><p>Create a new service category.</p>'+
       '<div class="field"><label>Section name</label><input type="text" id="m-sec" placeholder="e.g. Imaging"></div>'+
       '<div class="acts"><button class="btn ghost" id="m-cancel">Cancel</button><button class="btn primary" id="m-ok">Add</button></div>';
     overlay.hidden=false; var si=document.getElementById("m-sec"); si.focus();
     document.getElementById("m-cancel").onclick=closeModal;
-    function go(){
-      var name=si.value.trim()||"New section", q=active();
-      q.services.push({g:name, n:"New service", note:"", on:true, cost:0, visits:1});
-      persist(); closeModal(); buildTable(); refresh();
-      focusNewName(q.services.length-1);
-    }
+    function go(){ var name=si.value.trim()||"New section", q=active();
+      q.services.push({g:name,n:"New service",note:"",on:true,cost:0,visits:1}); persist();
+      closeModal(); buildTable(); refresh(); focusNewName(q.services.length-1); }
     document.getElementById("m-ok").onclick=go;
     si.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
-  }
-  document.getElementById("add-section").addEventListener("click", modalSection);
+  });
 
   // ---- modal ----
   var overlay=document.getElementById("overlay"), modal=document.getElementById("modal");
@@ -561,16 +659,12 @@
       '<div class="acts"><button class="btn ghost" id="m-cancel">Cancel</button><button class="btn primary" id="m-ok">Create</button></div>';
     overlay.hidden=false; var ni=document.getElementById("m-name"); ni.focus();
     document.getElementById("m-cancel").onclick=closeModal;
-    function go(){
-      var name=ni.value.trim()||"Untitled quotation", tpl=document.getElementById("m-tpl").value;
-      var q=newQuote(name,tpl); q.client=name;
-      store.quotes.push(q); store.activeId=q.id; persist();
-      closeModal(); buildSwitcher(); syncSettings(); buildTable(); refresh();
-    }
+    function go(){ var name=ni.value.trim()||"Untitled quotation", tpl=document.getElementById("m-tpl").value;
+      var q=newQuote(name,tpl); q.client=name; store.quotes.push(q); store.activeId=q.id; persist();
+      closeModal(); buildSwitcher(); syncSettings(); buildTable(); refresh(); }
     document.getElementById("m-ok").onclick=go;
     ni.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
   }
-
   function modalRename(){
     var q=active();
     modal.innerHTML =
@@ -583,7 +677,6 @@
     document.getElementById("m-ok").onclick=go;
     ni.addEventListener("keydown",function(e){ if(e.key==="Enter") go(); });
   }
-
   function modalDelete(){
     var q=active();
     modal.innerHTML =
@@ -592,13 +685,12 @@
     overlay.hidden=false;
     document.getElementById("m-cancel").onclick=closeModal;
     document.getElementById("m-ok").onclick=function(){
-      store.quotes = store.quotes.filter(function(x){return x.id!==q.id;});
+      store.quotes=store.quotes.filter(function(x){return x.id!==q.id;});
       if(!store.quotes.length){ var nq=newQuote("Untitled quotation","blank"); store.quotes.push(nq); }
-      store.activeId = store.quotes[0].id; persist();
+      store.activeId=store.quotes[0].id; persist();
       closeModal(); buildSwitcher(); syncSettings(); buildTable(); refresh();
     };
   }
-
   document.getElementById("new-quote").onclick=modalNew;
   document.getElementById("rename-quote").onclick=modalRename;
   document.getElementById("del-quote").onclick=modalDelete;
@@ -609,87 +701,143 @@
     buildSwitcher(); syncSettings(); buildTable(); refresh();
   };
 
-  // backup / restore / export
   function download(obj, filename){
     var blob=new Blob([JSON.stringify(obj,null,2)],{type:"application/json"});
     var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=filename; a.click();
     setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
   }
-  document.getElementById("backup").onclick=function(){ download(store, "valeo-quotations-backup.json"); };
+  document.getElementById("backup").onclick=function(){ download(store,"valeo-quotations-backup.json"); };
   document.getElementById("export").onclick=function(){
-    var q=active(); download(q, "valeo-quote-"+(q.name||"quote").toLowerCase().replace(/[^a-z0-9]+/g,"-")+".json");
+    var q=active(); download(q,"valeo-quote-"+(q.name||"quote").toLowerCase().replace(/[^a-z0-9]+/g,"-")+".json");
   };
   document.getElementById("restore").onclick=function(){ document.getElementById("restore-file").click(); };
   document.getElementById("restore-file").addEventListener("change", function(e){
-    var f=e.target.files[0]; if(!f) return;
-    var r=new FileReader();
+    var f=e.target.files[0]; if(!f) return; var r=new FileReader();
     r.onload=function(){
-      try{
-        var data=JSON.parse(r.result);
-        if(data && data.quotes){ store=data; }                 // full backup
-        else if(data && data.services){ data.id=uid(); store.quotes.push(data); store.activeId=data.id; } // single quote
+      try{ var data=JSON.parse(r.result);
+        if(data&&data.quotes){ data.quotes.forEach(normalize); store=data; }
+        else if(data&&data.services){ normalize(data); data.id=uid(); store.quotes.push(data); store.activeId=data.id; }
         else { alert("That file is not a valid quotation backup."); return; }
         persist(); buildSwitcher(); syncSettings(); buildTable(); refresh();
       }catch(err){ alert("Could not read that file."); }
     };
     r.readAsText(f); e.target.value="";
   });
-
   document.getElementById("print").onclick=function(){ renderQuoteDoc(); window.print(); };
 
-  // ---- refresh ----
+  // ---- summary ----
   function refresh(){
-    var q=active(), c=compute();
+    var q=active(), c=compute(), isEvent=c.type==="event", h="";
     document.getElementById("s-client").textContent = q.client || q.name || "—";
-    document.getElementById("s-members").textContent = "per member · " + nf.format(c.members) + (c.members===1?" member":" members");
-    document.getElementById("s-monthly").innerHTML = sar(c.monthlyFee) + "<small>/mo</small>";
-    document.getElementById("s-monthly-year").textContent = sar(c.monthlyAnnualized) + " / year";
-    document.getElementById("s-annual").innerHTML = sar(c.annualFee) + "<small>/yr</small>";
-    document.getElementById("s-savings").textContent = c.savings>0 ? ("Saves " + sar(c.savings) + "/yr vs monthly") : "Best value";
-    document.getElementById("s-memcount").textContent = nf.format(c.members);
-    document.getElementById("s-tot-monthly").textContent = sar(c.totMonthly) + "/mo";
-    document.getElementById("s-acv").textContent = sar(c.acv);
-    document.getElementById("s-cogs").textContent = sar(c.cogs);
-    document.getElementById("s-margin").textContent = sar(c.marginAnnual);
-    document.getElementById("s-marginpct").textContent = Math.round(c.marginPct) + "%";
-    q.updatedAt = Date.now();
-    persist();
+    var cityTxt = (q.cities&&q.cities.length)? q.cities.join(", ") : "No city selected";
+    if(isEvent){
+      document.getElementById("s-members").textContent = nf.format(c.members)+(c.members===1?" attendee":" attendees")+" · "+c.days+(c.days===1?" day":" days");
+      h += '<div class="plans">'+
+        '<div class="plan"><div class="lab">Per member</div><div class="fig num">'+sar(c.perMemberSell)+'</div><div class="sub">one-time, excl VAT</div></div>'+
+        '<div class="plan"><div class="lab">Total ('+nf.format(c.members)+')</div><div class="fig num">'+sar(c.totalSell)+'</div><div class="sub">excl VAT</div></div>'+
+        '</div>'+
+        '<div class="totes">'+
+          '<div class="line"><span class="lv">Cities</span><span class="rv">'+esc(cityTxt)+'</span></div>'+
+          '<div class="line"><span class="lv">VAT ('+c.vat+'%)</span><span class="rv num">'+sar(c.totalVat)+'</span></div>'+
+          '<div class="line big"><span class="lv">Total incl VAT</span><span class="rv num">'+sar(c.totalIncl)+'</span></div>'+
+        '</div>'+
+        '<div class="internal"><div class="it">Internal · cost basis (not shown to client)</div><div class="totes" style="padding:0;gap:7px;border:none">'+
+          '<div class="line"><span class="lv">B2B cost / member</span><span class="rv num">'+sar(c.b2bPerMember)+'</span></div>'+
+          '<div class="line"><span class="lv">Margin / member</span><span class="rv num">'+sar(c.marginPerMember)+'</span></div>'+
+          '<div class="line"><span class="lv">Gross margin</span><span class="rv num">'+Math.round(c.marginPct)+'%</span></div>'+
+        '</div></div>';
+    } else {
+      document.getElementById("s-members").textContent = "per member · "+nf.format(c.members)+(c.members===1?" member":" members");
+      h += '<div class="plans">'+
+        '<div class="plan"><div class="lab">Monthly plan</div><div class="fig num">'+sar(c.monthlyFee)+'<small>/mo</small></div><div class="sub num">'+sar(c.monthlyAnnualized)+' / year</div></div>'+
+        '<div class="plan"><div class="lab">Annual plan</div><div class="fig num">'+sar(c.annualFee)+'<small>/yr</small></div><div class="sub"><span class="tag">'+(c.savings>0?("Saves "+sar(c.savings)+"/yr"):"Best value")+'</span></div></div>'+
+        '</div>'+
+        '<div class="totes">'+
+          '<div class="line"><span class="lv">Cities</span><span class="rv">'+esc(cityTxt)+'</span></div>'+
+          '<div class="line"><span class="lv">Total monthly plan (all members)</span><span class="rv num">'+sar(c.totMonthly)+'/mo</span></div>'+
+          '<div class="line big"><span class="lv">Annual contract value</span><span class="rv num">'+sar(c.acv)+'</span></div>'+
+        '</div>'+
+        '<div class="internal"><div class="it">Internal · cost basis (not shown to client)</div><div class="totes" style="padding:0;gap:7px;border:none">'+
+          '<div class="line"><span class="lv">Annual cost / member</span><span class="rv num">'+sar(c.cogs)+'</span></div>'+
+          '<div class="line"><span class="lv">Margin / member (annual)</span><span class="rv num">'+sar(c.marginAnnual)+'</span></div>'+
+          '<div class="line"><span class="lv">Gross margin</span><span class="rv num">'+Math.round(c.marginPct)+'%</span></div>'+
+        '</div></div>';
+    }
+    document.getElementById("sum-body").innerHTML=h;
+    q.updatedAt=Date.now(); persist();
   }
 
   function renderQuoteDoc(){
-    var q=active(), c=compute(), byG={};
-    q.services.forEach(function(s){ if(s.on){ (byG[s.g]=byG[s.g]||[]).push(s); } });
-    var svcHtml="";
-    Object.keys(byG).forEach(function(g){
-      svcHtml += '<h2>'+esc(g||"Services")+'</h2><table><tbody>';
-      byG[g].forEach(function(s){
-        svcHtml += '<tr><td class="l">'+esc(s.n)+(s.note?' <span style="color:#888">('+esc(s.note)+')</span>':'')+'</td><td>'+(s.visits?(s.visits+'×/yr'):'included')+'</td></tr>';
+    var q=active(), c=compute(), isEvent=c.type==="event";
+    var cities=(q.cities&&q.cities.length)? q.cities.join(", ") : "Not specified";
+    var qtyHead = isEvent? "Qty / member" : "Visits / yr";
+    var lineHead = isEvent? "Cost / member (SAR)" : "Annual cost (SAR)";
+
+    var order=[],seen={}; q.services.forEach(function(s){ var g=s.g||"Services"; if(!seen[g]){seen[g]=true;order.push(g);} });
+    var rows="";
+    order.forEach(function(g){
+      rows += '<tr class="sec"><td class="l" colspan="5">'+esc(g)+'</td></tr>';
+      var sub=0;
+      q.services.forEach(function(s){
+        if((s.g||"Services")!==g) return;
+        var line=s.on?(Number(s.cost)||0)*(Number(s.visits)||0):0; if(s.on) sub+=line;
+        rows += '<tr class="'+(s.on?'':'off2')+'"><td class="l">'+esc(s.n)+'</td><td>'+sar(s.cost)+'</td><td>'+(s.visits||0)+'</td><td>'+sar(line)+'</td><td>'+(s.on?'Yes':'No')+'</td></tr>';
       });
-      svcHtml += '</tbody></table>';
+      rows += '<tr class="sub"><td class="l">Subtotal</td><td></td><td></td><td>'+sar(sub)+'</td><td></td></tr>';
     });
+
+    var totalLabel = isEvent
+      ? ("TOTAL B2B COST (per member"+(c.perDay?(", "+c.days+" days"):"")+", included items)")
+      : "TOTAL ANNUAL B2B COST (per member, included items)";
+    var bar = '<div class="qr-bar"><span>'+totalLabel+'</span><span>'+sar(c.b2bPerMember)+'</span></div>';
+
+    var qs="";
+    if(isEvent){
+      qs =
+        row2("Itemized B2B cost (per member"+(c.perDay?", × "+c.days+" days":"")+")", sar(c.b2bPerMember))+
+        row2("Markup on cost", c.markup+"%")+
+        row2("Margin (per member)", sar(c.marginPerMember))+
+        row2("Price per member, excl VAT", sar(c.perMemberSell))+
+        row2("VAT ("+c.vat+"%)", sar(c.perMemberVat))+
+        row2hi("Price per member, incl VAT", sar(c.perMemberIncl))+
+        row2("Attendees", nf.format(c.members))+
+        row2("Total, excl VAT", sar(c.totalSell))+
+        row2("Total VAT ("+c.vat+"%)", sar(c.totalVat))+
+        row2hi("Total project value, incl VAT", sar(c.totalIncl));
+    } else {
+      qs =
+        row2("Itemized annual B2B cost (per member)", sar(c.cogs))+
+        row2("Markup on cost", c.markup+"%")+
+        row2("Margin (per member, annual)", sar(c.marginAnnual))+
+        row2("Annual price, excl VAT", sar(c.annualFee))+
+        row2("Annual VAT ("+c.vat+"%)", sar(c.annualVat))+
+        row2hi("Annual price per member, incl VAT", sar(c.annualIncl))+
+        row2("Monthly price, excl VAT", sar(c.monthlyFee))+
+        row2("Monthly price per member, incl VAT", sar(c.monthlyIncl))+
+        row2("Members", nf.format(c.members))+
+        row2hi("Annual contract value (excl VAT)", sar(c.acv));
+    }
+
+    function row2(l,v){ return '<tr><td>'+esc(l)+'</td><td class="r">'+v+'</td></tr>'; }
+    function row2hi(l,v){ return '<tr class="hi"><td>'+esc(l)+'</td><td class="r">'+v+'</td></tr>'; }
+
     var d=new Date();
+    var subLine = isEvent
+      ? ("Per member, one-time ("+c.days+(c.days===1?" day":" days")+")  |  Prepared for: "+esc(q.client||q.name||"—"))
+      : ("Per member, per year  |  Prepared for: "+esc(q.client||q.name||"—"));
+
     document.getElementById("quote-doc").innerHTML =
-      '<div class="q-head"><div class="q-word">VALEO</div><div style="margin-left:auto;text-align:right;color:#555">Quotation</div></div>'+
-      '<div class="meta"><strong>Prepared for:</strong> '+esc(q.client||q.name||"—")+'<br>'+
-        '<strong>Members:</strong> '+nf.format(c.members)+' &nbsp;·&nbsp; <strong>Date:</strong> '+d.toLocaleDateString()+'</div>'+
-      '<h2 style="margin-top:16px">Membership pricing (per member)</h2>'+
-      '<div class="price-box">'+
-        '<div class="pb"><div class="l">Monthly plan</div><div class="v">'+sar(c.monthlyFee)+' / month</div><div style="color:#555;font-size:10.5px">'+sar(c.monthlyAnnualized)+' per year</div></div>'+
-        '<div class="pb"><div class="l">Annual plan</div><div class="v">'+sar(c.annualFee)+' / year</div><div style="color:#555;font-size:10.5px">'+(c.savings>0?('saves '+sar(c.savings)+' vs monthly'):'best value')+'</div></div>'+
-      '</div>'+
-      '<h2>Total program value</h2><table><tbody>'+
-        '<tr><td class="l">Annual contract value ('+nf.format(c.members)+' members, annual plan)</td><td>'+sar(c.acv)+'</td></tr>'+
-        '<tr><td class="l">Total if billed monthly (all members)</td><td>'+sar(c.totMonthlyYear)+' / year</td></tr>'+
-      '</tbody></table>'+
-      '<h2>Services included</h2>'+svcHtml+
-      '<div class="note">Prices exclude VAT. Services are personalized per member after onboarding based on physician recommendations.</div>';
+      '<div class="qr-title"><h1>Valeo  |  '+esc(q.name||"Quotation")+'</h1><div class="sub">'+subLine+'  |  '+d.toLocaleDateString()+'</div></div>'+
+      '<div class="qr-note"><b>All amounts in SAR.</b> Service lines are flat B2B partner costs; the pricing summary applies a '+c.markup+'% markup. VAT is '+c.vat+'% (shown separately). Cities covered: '+esc(cities)+'. Partner costs are based on Riyadh; other cities may vary.</div>'+
+      '<table class="qr"><thead><tr><th class="l">Service</th><th>Cost / unit (SAR)</th><th>'+qtyHead+'</th><th>'+lineHead+'</th><th>Included</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+      bar+
+      '<div class="qr-sumhead">Pricing summary (per member)</div>'+
+      '<table class="qs"><tbody>'+qs+'</tbody></table>'+
+      '<div class="qr-foot">Prices exclude VAT unless the line states "incl VAT". Services are personalized per member after onboarding based on physician recommendations. This document is a quotation and not a tax invoice.</div>';
   }
 
   // init
-  buildSwitcher();
-  syncSettings();
-  buildTable();
-  refresh();
+  buildSwitcher(); syncSettings(); buildTable(); refresh();
 })();
 </script>
 </body>
